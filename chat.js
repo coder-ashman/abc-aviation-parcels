@@ -1,3 +1,5 @@
+import { registerParcelMounted, registerParcelUnmounted } from '../src/parcel-state.js';
+
 let intervalId;
 
 export function bootstrap() {
@@ -25,6 +27,7 @@ export function mount(props) {
   applyParcelTheme(div, currentBrand);
   
   container?.appendChild(div);
+  registerParcelMounted();
   
   // Simulate chat notifications
   const messagesContainer = div.querySelector('#chat-messages');
@@ -63,5 +66,6 @@ export function unmount() {
   console.log('💬 Chat parcel: Unmounting');
   clearInterval(intervalId);
   document.getElementById('chat-module')?.remove();
+  registerParcelUnmounted();
   return Promise.resolve();
 }

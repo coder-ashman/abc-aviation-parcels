@@ -1,3 +1,5 @@
+import { registerParcelMounted, registerParcelUnmounted } from '../src/parcel-state.js';
+
 export function bootstrap() {
   console.log('📢 Notifications parcel: Bootstrapping');
   return Promise.resolve();
@@ -23,6 +25,7 @@ export function mount(props) {
   applyParcelTheme(div, currentBrand);
   
   container?.appendChild(div);
+  registerParcelMounted();
   console.log('✅ Notifications parcel: Mounted');
   return Promise.resolve();
 }
@@ -50,5 +53,6 @@ function applyParcelTheme(element, theme) {
 export function unmount() {
   console.log('📢 Notifications parcel: Unmounting');
   document.getElementById('notifications-module')?.remove();
+  registerParcelUnmounted();
   return Promise.resolve();
 }

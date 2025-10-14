@@ -8,15 +8,43 @@ export function mount(props) {
   const container = props.domElement || document.getElementById('aside-slot');
   const div = document.createElement('div');
   div.id = 'notifications-module';
-  div.style.padding = '16px';
-  div.style.background = '#e0f7fa';
-  div.style.borderRadius = '8px';
-  div.style.marginBottom = '16px';
-  div.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
-  div.innerHTML = '<strong style="display: block; margin-bottom: 8px; color: #00796b;">Notifications</strong><p style="margin: 0; font-size: 14px; color: #004d40;">No new notifications</p>';
+  div.className = 'c-card c-card--flat parcel-container';
+  
+  // Get current theme and apply appropriate styling
+  const currentBrand = document.documentElement.getAttribute('data-brand') || 'A';
+  div.setAttribute('data-theme', currentBrand);
+  
+  div.innerHTML = `
+    <div class="c-card__label">Notifications</div>
+    <div class="c-card__meta">No new notifications</div>
+  `;
+  
+  // Apply theme-specific styling
+  applyParcelTheme(div, currentBrand);
+  
   container?.appendChild(div);
   console.log('✅ Notifications parcel: Mounted');
   return Promise.resolve();
+}
+
+function applyParcelTheme(element, theme) {
+  // Remove existing theme classes
+  element.classList.remove('parcel-training-a', 'parcel-training-b', 'parcel-maintenance', 'parcel-default');
+  
+  // Add theme-specific class
+  switch (theme) {
+    case 'training-a':
+      element.classList.add('parcel-training-a');
+      break;
+    case 'training-b':
+      element.classList.add('parcel-training-b');
+      break;
+    case 'maintenance':
+      element.classList.add('parcel-maintenance');
+      break;
+    default:
+      element.classList.add('parcel-default');
+  }
 }
 
 export function unmount() {

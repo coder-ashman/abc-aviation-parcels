@@ -32,10 +32,19 @@ export function mount(props) {
   // Simulate chat notifications
   const messagesContainer = div.querySelector('#chat-messages');
   intervalId = setInterval(() => {
+    if (!messagesContainer) {
+      return;
+    }
+
     const message = document.createElement('div');
     message.className = 'c-badge c-badge--info';
     message.textContent = `New message at ${new Date().toLocaleTimeString()}`;
-    messagesContainer?.appendChild(message);
+    messagesContainer.appendChild(message);
+
+    // Cap the list so we only keep the 5 most recent entries.
+    while (messagesContainer.children.length > 5) {
+      messagesContainer.removeChild(messagesContainer.firstElementChild);
+    }
   }, 5000);
   
   console.log('✅ Chat parcel: Mounted');
